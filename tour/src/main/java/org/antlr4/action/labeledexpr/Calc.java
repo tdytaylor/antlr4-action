@@ -1,4 +1,4 @@
-package org.antlr4.action.expr;
+package org.antlr4.action.labeledexpr;
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
@@ -14,7 +14,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class ExprJoyRide {
+public class Calc {
 
   public static void main(String[] args) throws Exception {
     String inputFile = null;
@@ -26,12 +26,12 @@ public class ExprJoyRide {
       is = new FileInputStream(inputFile);
     }
     ANTLRInputStream input = new ANTLRInputStream(is);
-    ExprLexer lexer = new ExprLexer(input);
+    LabeledExprLexer lexer = new LabeledExprLexer(input);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
-    ExprParser parser = new ExprParser(tokens);
-    // parse; start at prog <label id="code.tour.main.6"/>
-    ParseTree tree = parser.prog();
-    // print tree as text <label id="code.tour.main.7"/>
-    System.out.println(tree.toStringTree(parser));
+    LabeledExprParser parser = new LabeledExprParser(tokens);
+    ParseTree tree = parser.prog(); // parse
+
+    EvalVisitor eval = new EvalVisitor();
+    eval.visit(tree);
   }
 }
